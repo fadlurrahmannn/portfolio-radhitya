@@ -37,8 +37,8 @@ const CONFIG = {
   certificates: [
     { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1CsvWh1-KlWpSvg6_lbFlZv2CO4xdpfPE/view?usp=sharing" },
     { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1ixyS1iYhbICedFSqX0U0vkTgYLFCM9Ct/view?usp=sharing" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" }
+    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1sT02ERXbJugNR9KFElZ0FWW0PSlpL9FL/view?usp=sharing" },
+    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1t1cCmodL3vT2vP7qJM2eB6uqPZF-aymx/view?usp=sharing" }
   ]
 };
 /* ============================= */
