@@ -28,8 +28,8 @@ const CONFIG = {
   projects: [
     { title: "KantinGO", desc: "Project details will land here.", image: "img/kantingo.png", links: [ { label: "GitHub", url: "https://github.com/fadlurrahmannn/kantingo-penjual" } ] },
     { title: "SIAKAM", desc: "Project details will land here.", image: "img/siakam.png", links: [ { label: "GitHub", url: "https://github.com/h44dziq/siakam/fork" } ] },
-    { title: "Coming soon", desc: "Project details will land here.", image: "", links: [] },
-    { title: "Coming soon", desc: "Project details will land here.", image: "", links: [] }
+    { title: "Job Queue", desc: "Project details will land here.", image: "", links: [ { label: "GitHub", url: "https://github.com/fadlurrahmannn/job-queue-kelompok-4" } ] },
+    { title: "Bikey", desc: "Project details will land here.", image: "img/bikey.png", links: [ { label: "Figma", url: "https://www.figma.com/design/dAxfHQU2cHZE8l11Z8rxKY/ngeprojek-yuk?node-id=261-2768&t=OoFXOnTBtKfTA0VX-0" } ] }
   ],
 
   // Sertifikat: cukup isi "url" (link Google Drive, share = Anyone with the link).
