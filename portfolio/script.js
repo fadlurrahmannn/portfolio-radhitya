@@ -19,9 +19,24 @@ const CONFIG = {
     { name: "SmartPLS", file: "smartpls" }
   ],
 
+  // Projects: gambar taruh di img/projects/ lalu tulis path-nya di "image".
+  // "links" = daftar tombol (GitHub, Figma, dll). Link pertama = tujuan kalau kartunya diklik.
+  // Kalau "links" kosong, kartu tampil sebagai "Coming soon".
+  // Contoh isi:
+  // { title: "Nama Project", desc: "Deskripsi singkat", image: "img/projects/p1.jpg",
+  //   links: [ { label: "GitHub", url: "https://github.com/..." }, { label: "Figma", url: "https://figma.com/..." } ] }
+  projects: [
+    { title: "KantinGO", desc: "Project details will land here.", image: "img/kantingo.png", links: [ { label: "GitHub", url: "https://github.com/fadlurrahmannn/kantingo-penjual" } ] },
+    { title: "SIAKAM", desc: "Project details will land here.", image: "img/siakam.png", links: [ { label: "GitHub", url: "https://github.com/h44dziq/siakam/fork" } ] },
+    { title: "Coming soon", desc: "Project details will land here.", image: "", links: [] },
+    { title: "Coming soon", desc: "Project details will land here.", image: "", links: [] }
+  ],
+
+  // Sertifikat: cukup isi "url" (link Google Drive, share = Anyone with the link).
+  // Gambar sertifikat otomatis diambil dari Drive. title & issuer boleh dikosongin.
   certificates: [
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" },
+    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1CsvWh1-KlWpSvg6_lbFlZv2CO4xdpfPE/view?usp=sharing" },
+    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1ixyS1iYhbICedFSqX0U0vkTgYLFCM9Ct/view?usp=sharing" },
     { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" },
     { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "" }
   ]
@@ -32,11 +47,28 @@ const CONFIG = {
 document.getElementById("jf-ig").href = CONFIG.johariInstagram;
 document.getElementById("jf-shopee").href = CONFIG.johariShopee;
 
-// Foto kolase: taruh file di folder img/ dengan nama photo-1.jpg ... photo-4.jpg
+// Foto kolase: img/photo-1 ... photo-4 (.jpg/.jpeg/.png/.webp semua kebaca).
+// Bentuk kotak otomatis ngikutin rasio foto biar nggak kepotong aneh.
+const collageEl = document.getElementById("collage");
+function fitCollage() {
+  let max = 0;
+  collageEl.querySelectorAll(".tile").forEach(t => { max = Math.max(max, t.offsetTop + t.offsetHeight); });
+  const extra = max - collageEl.clientHeight;
+  collageEl.style.marginBottom = extra > 0 ? (extra + 16) + "px" : "";
+}
+window.addEventListener("resize", fitCollage);
 document.querySelectorAll(".tile[data-photo]").forEach(t => {
+  const base = t.dataset.photo.replace(/\.(jpe?g|png|webp)$/i, "");
+  const exts = [".jpg", ".jpeg", ".png", ".webp"];
+  let i = 0;
   const img = new Image();
-  img.onload = () => { t.style.backgroundImage = `url("${img.src}")`; };
-  img.src = t.dataset.photo;
+  img.onload = () => {
+    t.style.backgroundImage = `url("${img.src}")`;
+    t.style.aspectRatio = Math.min(1.7, Math.max(.62, img.naturalWidth / img.naturalHeight));
+    fitCollage();
+  };
+  img.onerror = () => { if (++i < exts.length) img.src = base + exts[i]; };
+  img.src = base + exts[0];
 });
 
 // Certifications: seluruh kartu = link ke sertifikat
@@ -46,9 +78,21 @@ CONFIG.certificates.forEach(c => {
   a.className = "cert";
   a.href = c.url || "#certifications";
   if (c.url) { a.target = "_blank"; a.rel = "noopener"; }
-  a.innerHTML = `<div class="cthumb">certificate</div><h3></h3><p></p>`;
-  a.querySelector("h3").textContent = c.title;
-  a.querySelector("p").textContent = [c.issuer, c.date].filter(Boolean).join(", ");
+  a.innerHTML = `<div class="cthumb"><span>certificate</span></div><h3></h3><p></p>`;
+  const h3 = a.querySelector("h3"), p = a.querySelector("p");
+  h3.textContent = c.title || "";
+  p.textContent = [c.issuer, c.date].filter(Boolean).join(", ");
+  h3.hidden = !h3.textContent;
+  p.hidden = !p.textContent;
+  const m = (c.url || "").match(/\/d\/([\w-]+)/) || (c.url || "").match(/[?&]id=([\w-]+)/);
+  const src = c.image || (m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000` : "");
+  if (src) {
+    const im = new Image();
+    im.alt = "";
+    im.referrerPolicy = "no-referrer";
+    im.onload = () => a.querySelector(".cthumb").appendChild(im);
+    im.src = src;
+  }
   certBox.appendChild(a);
 });
 
@@ -58,8 +102,45 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 }), { threshold: .6 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
-// Projects carousel
+// Projects: kartu dibuat dari CONFIG.projects
 const stage = document.getElementById("stage");
+stage.innerHTML = "";
+CONFIG.projects.forEach(p => {
+  const card = document.createElement("div");
+  card.className = "pcard";
+  const links = (p.links || []).filter(l => l.url);
+  const main = document.createElement(links.length ? "a" : "div");
+  main.className = "pmain" + (links.length ? "" : " soon");
+  if (links.length) { main.href = links[0].url; main.target = "_blank"; main.rel = "noopener"; }
+  const box = document.createElement("div");
+  box.className = "pimg";
+  if (p.image) {
+    const im = new Image();
+    im.alt = p.title || "";
+    im.onload = () => box.appendChild(im);
+    im.src = p.image;
+  }
+  const h = document.createElement("h3");
+  h.textContent = p.title || "Coming soon";
+  const d = document.createElement("p");
+  d.textContent = p.desc || "";
+  main.append(box, h, d);
+  card.appendChild(main);
+  if (links.length) {
+    const row = document.createElement("div");
+    row.className = "plinks";
+    links.forEach(l => {
+      const a = document.createElement("a");
+      a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = (l.label || "Open") + " ↗";
+      row.appendChild(a);
+    });
+    card.appendChild(row);
+  }
+  stage.appendChild(card);
+});
+
+// Projects carousel
 const cards = [...stage.children];
 const count = document.getElementById("count");
 let cur = 0;
@@ -74,7 +155,7 @@ function render() {
     c.style.opacity = abs > 1 ? 0 : 1;
     c.style.filter = abs ? "grayscale(.6) brightness(.96)" : "none";
     c.style.zIndex = 10 - abs;
-    c.style.pointerEvents = abs ? "none" : "auto";
+    c.style.pointerEvents = abs > 1 ? "none" : "auto";
     c.setAttribute("aria-hidden", abs ? "true" : "false");
   });
   count.textContent = `${cur + 1} / ${n}`;
@@ -88,12 +169,25 @@ stage.addEventListener("keydown", e => {
 });
 let startX = null;
 stage.addEventListener("pointerdown", e => { startX = e.clientX; });
+let swiped = false;
 window.addEventListener("pointerup", e => {
   if (startX === null) return;
   const dx = e.clientX - startX;
-  if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+  if (Math.abs(dx) > 40) {
+    go(dx < 0 ? 1 : -1);
+    swiped = true;
+    setTimeout(() => { swiped = false; }, 80);
+  }
   startX = null;
 });
+// habis geser, jangan ikut kebuka link; klik kartu samping = geser ke kartu itu
+stage.addEventListener("click", e => {
+  if (swiped) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+stage.addEventListener("dragstart", e => e.preventDefault());
+cards.forEach((card, i) => card.addEventListener("click", e => {
+  if (i !== cur) { e.preventDefault(); cur = i; render(); }
+}));
 render();
 
 

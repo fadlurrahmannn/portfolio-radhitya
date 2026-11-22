@@ -190,3 +190,22 @@ footer{text-align:center;color:var(--mute);padding:2.5rem 1rem 3rem;font-size:.9
 @media (prefers-reduced-motion:reduce){
   .exp-card.show{animation:none}
 }
+
+
+/* ===== revisi 3 ===== */
+.tile{background-position:center 25%}
+
+/* projects: gambar + link */
+.pcard .pmain{display:block;text-decoration:none;color:inherit}
+.pcard .pmain.soon{cursor:default}
+.pimg{overflow:hidden}
+.pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;-webkit-user-drag:none}
+.pimg:has(img)::after{display:none}
+.pcard .plinks{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin-top:.8rem}
+.pcard .plinks a{font-family:var(--hand);font-size:1.15rem;text-decoration:none;border-bottom:2px solid var(--pen);line-height:1.2}
+.pcard .plinks a:hover{color:var(--pen)}
+.pcard .pmain:hover h3{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* certifications: gambar dari Drive */
+.cthumb{position:relative;overflow:hidden}
+.cthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;background:#fff}
