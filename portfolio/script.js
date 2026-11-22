@@ -35,10 +35,10 @@ const CONFIG = {
   // Sertifikat: cukup isi "url" (link Google Drive, share = Anyone with the link).
   // Gambar sertifikat otomatis diambil dari Drive. title & issuer boleh dikosongin.
   certificates: [
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1CsvWh1-KlWpSvg6_lbFlZv2CO4xdpfPE/view?usp=sharing" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1ixyS1iYhbICedFSqX0U0vkTgYLFCM9Ct/view?usp=sharing" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1sT02ERXbJugNR9KFElZ0FWW0PSlpL9FL/view?usp=sharing" },
-    { title: "Nama Sertifikat", issuer: "Penerbit", date: "Bulan Tahun", url: "https://drive.google.com/file/d/1t1cCmodL3vT2vP7qJM2eB6uqPZF-aymx/view?usp=sharing" }
+    { title: "English Language Proficiency Test (TeBI ELPT UPNVJ)", issuer: "UPA Bahasa UPN Veteran Jakarta", date: "September 2025", url: "https://drive.google.com/file/d/1sT02ERXbJugNR9KFElZ0FWW0PSlpL9FL/view?usp=sharing" },
+    { title: "Tim Pelaksana Program Penguatan Kapasitas Organisasi Kemahasiswaan (PPK Ormawa)", issuer: "Belmawa dan Kemdiktisaintek", date: "Oktober 2026", url: "https://drive.google.com/file/d/1ixyS1iYhbICedFSqX0U0vkTgYLFCM9Ct/view?usp=sharing" },
+    { title: "Data Classification and Summarization Using IBM Granite", issuer: "IBM SkillsBuild", date: "Oktober 2025", url: "https://drive.google.com/file/d/1CsvWh1-KlWpSvg6_lbFlZv2CO4xdpfPE/view?usp=sharing" },
+    { title: "Peserta Webinar POINTER 2026", issuer: "BEM Fakultas Ilmu Komputer UPN Veteran Jakarta", date: "Mei 2026", url: "https://drive.google.com/file/d/1t1cCmodL3vT2vP7qJM2eB6uqPZF-aymx/view?usp=sharing" }
   ]
 };
 /* ============================= */
